@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1769aa">
+<meta name="description" content="Smart Saathi - रोज़मर्रा के उपयोगी डिजिटल टूल्स">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>Smart Saathi</title>
+<style>
+:root{--blue:#1769aa;--ink:#172536;--muted:#64748b;--bg:#f3f7fb;--card:#fff;--line:#e4ebf2}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;color:var(--ink)}
+header{background:linear-gradient(135deg,#1769aa,#2496a8);color:white;padding:24px 18px 22px;border-radius:0 0 24px 24px}
+.brand{font-size:12px;opacity:.9}.title{font-size:25px;font-weight:800;margin:5px 0}.sub{font-size:13px;opacity:.9}
+main{max-width:720px;margin:auto;padding:16px 14px 95px}.notice{background:#fff8e7;border:1px solid #f2dfac;color:#6d5316;padding:11px 12px;border-radius:12px;font-size:12px;margin:14px 0}
+.section{font-weight:750;margin:20px 2px 10px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tile,.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;box-shadow:0 3px 12px #1d35570a}
+.tile{text-align:left;min-height:104px}.tile .ico{font-size:24px}.tile strong{display:block;margin-top:7px}.tile small{color:var(--muted)}
+.panel{margin-top:12px}.panel h3{margin:0 0 8px;font-size:17px}.muted{color:var(--muted);font-size:13px;line-height:1.5}
+button,.btn{border:0;border-radius:11px;background:var(--blue);color:white;padding:11px 14px;font-weight:700;cursor:pointer}
+button:disabled{opacity:.55}.secondary{background:#eaf2f9;color:#155b91}.field{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font:inherit;margin:6px 0}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:9px 4px calc(9px + env(safe-area-inset-bottom));z-index:3}
+nav button{background:transparent;color:#536477;padding:6px 10px;font-size:12px}nav button.active{color:var(--blue)}
+.price{font-size:28px;font-weight:800;color:var(--blue)}.tag{display:inline-block;padding:4px 8px;border-radius:20px;background:#e8f5ee;color:#176b3a;font-size:11px;font-weight:700}
+.hidden{display:none}.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}footer{text-align:center;color:var(--muted);font-size:11px;padding:22px 0}
+.result{padding:10px;background:#eef6fc;border-radius:10px;margin-top:8px;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<header><div class="brand">आपका रोज़मर्रा का डिजिटल साथी</div><div class="title">👋 Smart Saathi</div><div class="sub">Useful tools • Simple experience • Privacy first</div></header>
+<main>
+<div class="notice">यह शुरुआती PWA संस्करण है। बेसिक टूल काम करते हैं। Premium भुगतान अभी जोड़ा नहीं गया है।</div>
+<section id="home"><div class="section">आज आपको किस चीज़ में मदद चाहिए?</div><div class="grid">
+<button class="tile" onclick="show('calculator')"><span class="ico">🧮</span><strong>कैलकुलेटर</strong><small>साधारण हिसाब</small></button>
+<button class="tile" onclick="show('word')"><span class="ico">📝</span><strong>Text Tools</strong><small>शब्द और अक्षर गिनें</small></button>
+<button class="tile" onclick="show('pdf')"><span class="ico">📄</span><strong>PDF Tools</strong><small>टेक्स्ट को PDF में प्रिंट करें</small></button>
+<button class="tile" onclick="show('image')"><span class="ico">🖼️</span><strong>Image Tools</strong><small>फोटो का आकार घटाएँ</small></button>
+<button class="tile" onclick="show('qr')"><span class="ico">▦</span><strong>QR Tools</strong><small>QR सुविधा अगले अपडेट में</small></button>
+<button class="tile" onclick="show('premium')"><span class="ico">⭐</span><strong>Premium</strong><small>₹99 प्रति माह (प्रस्तावित)</small></button>
+</div><div class="panel"><h3>🔒 आपकी प्राइवेसी</h3><div class="muted">यह संस्करण सामान्य टूल आपके डिवाइस पर चलाता है। कोई भुगतान या अकाउंट विवरण नहीं माँगा जाता।</div></div></section>
+<section id="calculator" class="hidden"><div class="section">कैलकुलेटर</div><div class="panel"><input id="display" class="field" placeholder="उदाहरण: 125+75" inputmode="decimal"><div class="row"><button onclick="calc()">हिसाब करें</button><button class="secondary" onclick="display.value='';calcResult.textContent='परिणाम यहाँ दिखेगा।'">साफ करें</button></div><p id="calcResult" class="muted">परिणाम यहाँ दिखेगा।</p></div></section>
+<section id="word" class="hidden"><div class="section">Text Tools</div><div class="panel"><textarea id="textInput" class="field" rows="5" placeholder="यहाँ टेक्स्ट लिखें या पेस्ट करें..." oninput="countText()"></textarea><p id="counts" class="muted">0 शब्द • 0 अक्षर</p><button class="secondary" onclick="copyText()">टेक्स्ट कॉपी करें</button><p id="copyStatus" class="muted"></p></div></section>
+<section id="pdf" class="hidden"><div class="section">PDF Tools</div><div class="panel"><h3>टेक्स्ट से PDF</h3><textarea id="pdfText" class="field" rows="6" placeholder="PDF में बदलने के लिए टेक्स्ट लिखें..."></textarea><button onclick="makePdf()">PDF सेव / प्रिंट करें</button><p class="muted">यह आपके ब्राउज़र का Print विकल्प खोलेगा। वहाँ “Save as PDF” चुनें।</p></div></section>
+<section id="image" class="hidden"><div class="section">Image Tools</div><div class="panel"><h3>फोटो कंप्रेस करें</h3><input id="imageFile" class="field" type="file" accept="image/*"><button onclick="compressImage()">फोटो कंप्रेस करें</button><div id="imageResult" class="muted"></div></div></section>
+<section id="qr" class="hidden"><div class="section">QR Tools</div><div class="panel"><h3>QR टूल जल्द आएगा</h3><p class="muted">अगले अपडेट में QR कोड बनाना और पढ़ना जोड़ेंगे।</p></div></section>
+<section id="premium" class="hidden"><div class="section">Smart Saathi Premium</div><div class="panel"><span class="tag">प्रस्तावित प्लान</span><h3>Premium सुविधाएँ</h3><div class="price">₹99 <small style="font-size:13px;color:#64748b">/ माह</small></div><p class="muted">भविष्य में Advanced PDF, ज्यादा Image Tools और AI Writing जैसी सुविधाएँ जोड़ी जा सकती हैं।</p><button disabled>भुगतान अभी उपलब्ध नहीं</button><p class="muted">असली भुगतान शुरू करने से पहले भुगतान प्रदाता, रिफंड नीति, सहायता और आवश्यक वयस्क/व्यावसायिक KYC पूरी करनी होगी।</p></div></section>
+<section id="privacy" class="hidden"><div class="section">Privacy & Help</div><div class="panel"><h3>हमारे सिद्धांत</h3><p class="muted">• सामान्य टूल बिना लॉगिन।<br>• Contacts, SMS या Location की अनुमति नहीं।<br>• फोटो केवल आपके चुने जाने पर इस डिवाइस में प्रोसेस होती है।<br>• इस डेमो में कोई भुगतान नहीं होता।</p></div></section>
+<footer>Smart Saathi • शुरुआती PWA संस्करण</footer></main>
+<nav><button class="active" onclick="show('home',this)">🏠<br>होम</button><button onclick="show('calculator',this)">🧮<br>टूल्स</button><button onclick="show('premium',this)">⭐<br>Premium</button><button onclick="show('privacy',this)">🔒<br>सुरक्षा</button></nav>
+<script>
+const sections=['home','calculator','word','pdf','image','qr','premium','privacy'];
+function show(id,btn){sections.forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');else if(id==='home')document.querySelector('nav button').classList.add('active');window.scrollTo(0,0)}
+function calc(){let s=document.getElementById('display').value.trim();let out=document.getElementById('calcResult');if(!s||!/^[0-9+\-*/(). %]+$/.test(s)){out.textContent='कृपया सही गणित लिखें।';return}try{let tokens=s.match(/(?:\d+(?:\.\d*)?|\.\d+|[()+\-*/%])/g);if(!tokens||tokens.join('')!==s.replace(/\s/g,''))throw 0;let p=0;function expr(){let v=term();while(tokens[p]==='+'||tokens[p]==='-'){let op=tokens[p++],r=term();v=op==='+'?v+r:v-r}return v}function term(){let v=factor();while(['*','/','%'].includes(tokens[p])){let op=tokens[p++],r=factor();if((op==='/'||op==='%')&&r===0)throw 0;v=op==='*'?v*r:op==='/'?v/r:v%r}return v}function factor(){if(tokens[p]==='+'){p++;return factor()}if(tokens[p]==='-'){p++;return -factor()}if(tokens[p]==='('){p++;let v=expr();if(tokens[p++]!==')')throw 0;return v}let n=Number(tokens[p++]);if(!Number.isFinite(n))throw 0;return n}let v=expr();if(p!==tokens.length||!Number.isFinite(v))throw 0;out.textContent='परिणाम: '+v}catch(e){out.textContent='कृपया सही गणित लिखें।'}}
+function countText(){let t=textInput.value;counts.textContent=(t.trim()?t.trim().split(/\s+/).length:0)+' शब्द • '+t.length+' अक्षर'}
+async function copyText(){try{await navigator.clipboard.writeText(textInput.value);copyStatus.textContent='टेक्स्ट कॉपी हो गया।'}catch(e){copyStatus.textContent='कॉपी नहीं हो पाया; टेक्स्ट चुनकर कॉपी करें।'}}
+function makePdf(){let t=pdfText.value;if(!t.trim()){alert('पहले टेक्स्ट लिखें।');return}let w=window.open('','_blank');if(!w){alert('ब्राउज़र में पॉप-अप की अनुमति दें।');return}let d=w.document;d.write('<!doctype html><meta charset="utf-8"><title>Smart Saathi PDF</title><style>body{font-family:Arial,sans-serif;white-space:pre-wrap;padding:30px;line-height:1.6}</style><div></div>');d.body.querySelector('div').textContent=t;d.close();w.focus();w.print()}
+function compressImage(){let f=imageFile.files[0],out=imageResult;if(!f){out.textContent='पहले फोटो चुनें।';return}let img=new Image(),url=URL.createObjectURL(f);img.onload=()=>{let c=document.createElement('canvas'),scale=Math.min(1,1600/Math.max(img.width,img.height));c.width=Math.round(img.width*scale);c.height=Math.round(img.height*scale);c.getContext('2d').drawImage(img,0,0,c.width,c.height);c.toBlob(blob=>{let a=document.createElement('a'),u=URL.createObjectURL(blob);a.href=u;a.download='smart-saathi-compressed.jpg';a.textContent='कंप्रेस फोटो डाउनलोड करें';out.innerHTML='';out.append('मूल आकार: '+Math.round(f.size/1024)+' KB • नया आकार: '+Math.round(blob.size/1024)+' KB ');out.append(a);URL.revokeObjectURL(url)},'image/jpeg',.78);};img.onerror=()=>out.textContent='यह फोटो खुल नहीं पाई।';img.src=url}
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
