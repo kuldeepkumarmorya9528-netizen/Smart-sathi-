@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1769aa">
+<title>Smart Saathi — Demo</title>
+<style>
+:root{--blue:#1769aa;--ink:#172536;--muted:#64748b;--bg:#f3f7fb;--card:#fff;--line:#e4ebf2}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;color:var(--ink)}
+header{background:linear-gradient(135deg,#1769aa,#2496a8);color:white;padding:24px 18px 22px;border-radius:0 0 24px 24px}
+.brand{font-size:12px;opacity:.9;letter-spacing:.5px}.title{font-size:25px;font-weight:800;margin:5px 0}.sub{font-size:13px;opacity:.9}
+main{max-width:720px;margin:auto;padding:16px 14px 90px}.notice{background:#fff8e7;border:1px solid #f2dfac;color:#6d5316;padding:11px 12px;border-radius:12px;font-size:12px;margin:14px 0}
+.section{font-weight:750;margin:20px 2px 10px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tile,.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;box-shadow:0 3px 12px #1d35570a}
+.tile{cursor:pointer;text-align:left;min-height:104px}.tile .ico{font-size:24px}.tile strong{display:block;margin-top:7px}.tile small{color:var(--muted)}
+.panel{margin-top:12px}.panel h3{margin:0 0 8px;font-size:17px}.muted{color:var(--muted);font-size:13px;line-height:1.5}
+button,.btn{border:0;border-radius:11px;background:var(--blue);color:white;padding:11px 14px;font-weight:700;cursor:pointer}
+.secondary{background:#eaf2f9;color:#155b91}.field{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font:inherit;margin:6px 0}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:9px 4px calc(9px + env(safe-area-inset-bottom));z-index:3}
+nav button{background:transparent;color:#536477;padding:6px 10px;font-size:12px}nav button.active{color:var(--blue)}
+.price{font-size:28px;font-weight:800;color:var(--blue)}.tag{display:inline-block;padding:4px 8px;border-radius:20px;background:#e8f5ee;color:#176b3a;font-size:11px;font-weight:700}
+.hidden{display:none}.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:22px 0}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand">आपका रोज़मर्रा का डिजिटल साथी</div>
+ <div class="title">👋 Smart Saathi</div>
+ <div class="sub">Useful tools • Simple experience • Privacy first</div>
+</header>
+<main>
+ <div class="notice">यह शुरुआती डेमो है। अभी इसमें असली भुगतान, विज्ञापन, अकाउंट या डेटा अपलोड की सुविधा नहीं है।</div>
+
+ <section id="home">
+  <div class="section">आज आपको किस चीज़ में मदद चाहिए?</div>
+  <div class="grid">
+   <button class="tile" onclick="show('calculator')"><span class="ico">🧮</span><strong>कैलकुलेटर</strong><small>साधारण हिसाब</small></button>
+   <button class="tile" onclick="show('word')"><span class="ico">📝</span><strong>Text Tools</strong><small>शब्द और अक्षर गिनें</small></button>
+   <button class="tile" onclick="show('pdf')"><span class="ico">📄</span><strong>PDF Tools</strong><small>अगले चरण में जोड़ेंगे</small></button>
+   <button class="tile" onclick="show('image')"><span class="ico">🖼️</span><strong>Image Tools</strong><small>अगले चरण में जोड़ेंगे</small></button>
+   <button class="tile" onclick="show('qr')"><span class="ico">▦</span><strong>QR Tools</strong><small>अगले चरण में जोड़ेंगे</small></button>
+   <button class="tile" onclick="show('premium')"><span class="ico">⭐</span><strong>Premium</strong><small>प्लान की जानकारी</small></button>
+  </div>
+  <div class="panel"><h3>🔒 आपकी प्राइवेसी</h3><div class="muted">हमारा लक्ष्य है कि सामान्य टूल बिना लॉगिन के चलें और अनावश्यक निजी जानकारी न माँगी जाए। किसी भी ऑनलाइन सुविधा को जोड़ने से पहले डेटा उपयोग साफ बताया जाएगा।</div></div>
+ </section>
+
+ <section id="calculator" class="hidden">
+  <div class="section">कैलकुलेटर</div><div class="panel">
+   <input id="display" class="field" placeholder="उदाहरण: 125+75" inputmode="decimal">
+   <div class="row"><button onclick="calc()">हिसाब करें</button><button class="secondary" onclick="document.getElementById('display').value=''">साफ करें</button></div>
+   <p id="calcResult" class="muted">परिणाम यहाँ दिखेगा।</p>
+  </div>
+ </section>
+
+ <section id="word" class="hidden">
+  <div class="section">Text Tools</div><div class="panel">
+   <textarea id="textInput" class="field" rows="5" placeholder="यहाँ अपना टेक्स्ट लिखें या पेस्ट करें..." oninput="countText()"></textarea>
+   <p id="counts" class="muted">0 शब्द • 0 अक्षर</p>
+  </div>
+ </section>
+
+ <section id="pdf" class="hidden"><div class="section">PDF Tools</div><div class="panel"><h3>PDF सुविधाएँ जल्द आएँगी</h3><p class="muted">अगले संस्करण में PDF देखना, पेज व्यवस्थित करना और सुरक्षित तरीके से फाइल तैयार करना जोड़ेंगे। फाइल प्रोसेसिंग की प्राइवेसी पहले जाँची जाएगी।</p></div></section>
+ <section id="image" class="hidden"><div class="section">Image Tools</div><div class="panel"><h3>Image Tools जल्द आएँगे</h3><p class="muted">फोटो का आकार बदलना और कंप्रेस करना जोड़ेंगे। फोटो आपकी अनुमति के बिना अपलोड नहीं होगी।</p></div></section>
+ <section id="qr" class="hidden"><div class="section">QR Tools</div><div class="panel"><h3>QR सुविधा जल्द आएगी</h3><p class="muted">QR बनाना और पढ़ना जोड़ेंगे। किसी QR को खोलने से पहले उसका लिंक जाँचें।</p></div></section>
+
+ <section id="premium" class="hidden">
+  <div class="section">Smart Saathi Premium</div>
+  <div class="panel"><span class="tag">प्रस्तावित प्लान</span><h3>Premium सुविधाएँ</h3><div class="price">₹99 <small style="font-size:13px;color:#64748b">/ माह (प्रस्तावित)</small></div>
+   <p class="muted">आगे चलकर Advanced PDF Tools, ज्यादा Image Tools और AI Writing जैसी सुविधाएँ मिल सकती हैं।</p>
+   <button disabled style="opacity:.55">अभी खरीद उपलब्ध नहीं</button>
+   <p class="muted">भुगतान तभी शुरू होगा जब आधिकारिक बिलिंग, रिफंड, सहायता और सुरक्षा जाँच पूरी होगी।</p>
+  </div>
+ </section>
+
+ <section id="privacy" class="hidden">
+  <div class="section">Privacy & Help</div>
+  <div class="panel"><h3>हमारे सिद्धांत</h3><p class="muted">• सामान्य टूल बिना लॉगिन।<br>• Contacts, SMS या Location की अनुमति नहीं।<br>• फाइल चुनने से पहले यूजर की अनुमति।<br>• भुगतान विवरण ऐप में सेव नहीं होंगे।<br>• डेटा उपयोग और शिकायत सहायता स्पष्ट होगी।</p></div>
+ </section>
+ <footer>Smart Saathi Demo • यह अभी परीक्षण संस्करण है, सार्वजनिक ऐप नहीं।</footer>
+</main>
+<nav>
+ <button class="active" onclick="show('home',this)">🏠<br>होम</button>
+ <button onclick="show('calculator',this)">🧮<br>टूल्स</button>
+ <button onclick="show('premium',this)">⭐<br>Premium</button>
+ <button onclick="show('privacy',this)">🔒<br>सुरक्षा</button>
+</nav>
+<script>
+function show(id,btn){document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');else{let n=[...document.querySelectorAll('nav button')].find(b=>b.textContent.includes(id==='home'?'होम':id==='premium'?'Premium':id==='privacy'?'सुरक्षा':'टूल्स'));if(n)n.classList.add('active')}window.scrollTo(0,0)}
+function calc(){let v=document.getElementById('display').value.trim();if(!/^[0-9+\-*/(). %]+$/.test(v)){document.getElementById('calcResult').textContent='कृपया केवल गणित के अंक और चिन्ह डालें।';return}try{let r=Function('"use strict";return ('+v+')')();document.getElementById('calcResult').textContent='परिणाम: '+r}catch(e){document.getElementById('calcResult').textContent='कृपया सही गणित लिखें।'}}
+function countText(){let t=document.getElementById('textInput').value;let words=t.trim()?t.trim().split(/\s+/).length:0;document.getElementById('counts').textContent=words+' शब्द • '+t.length+' अक्षर'}
+</script>
+</body></html>
